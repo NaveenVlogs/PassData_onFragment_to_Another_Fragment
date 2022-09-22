@@ -1,0 +1,99 @@
+pass data on fraagment to another fragment on click  button
+// button and edittext xml code
+
+  <EditText
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_marginTop="30dp"
+            android:hint="Enter your Detail Here"
+            android:id="@+id/etidtext"
+            android:layout_below="@id/imageslider1"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:padding="20dp"
+            android:textColor="@color/white"/>
+      <Button
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+            android:text="clicked"
+            android:textSize="20sp"
+          android:id="@+id/btnclicked"
+            android:layout_below="@id/etidtext"/>
+
+//Fragment java code on button click with pass data another activity
+
+public class ProfileFragment extends Fragment {
+    Button btnclicked;
+    EditText etidtext;
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
+      View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        btnclicked = view.findViewById(R.id.btnclicked);
+        etidtext = view.findViewById(R.id.etidtext);
+
+
+        btnclicked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("Key",etidtext.getText().toString());
+                next_fragment fragment = new next_fragment();
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.framlayout1,fragment).commit();
+
+            }
+        });
+
+//second fragment pass data here 
+ //xml code 
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".next_fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="demo text"
+        android:id="@+id/tv1"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+</FrameLayout>
+
+//java code here
+
+public class next_fragment extends Fragment {
+    TextView tv1;
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+      View v =  inflater.inflate(R.layout.fragment_next_fragment, container, false);
+      tv1 = v.findViewById(R.id.tv1);
+      Bundle bundle = this.getArguments();
+      String data = bundle.getString("Key");
+      tv1.setText(data);
+      return v;
+    }
+
+
+
+
+
+
+
+
